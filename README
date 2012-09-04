@@ -1,21 +1,9 @@
-Bit Pathways is a template-based flowchart editor which can be applied 
-for visualisation and structurisation of knowledge in different disciplines.
+Bit Pathways is a template-based flowchart editor which can be applied for visualisation and structurisation of knowledge in different disciplines.
 
-The editor has been initially developed by Andrzej Kononowicz to serve as a clinical pathways editor. 
-Currently the tool is also used for other purposes including learning using graphic organisers, 
-design of virtual patients, building cognitive maps, visualisation of workflows. 
-Being developed in Java Swing technology the Bit Pathways tool can be used on various operating systems 
-and does not require complicated installation.
+The editor has been initially developed by Andrzej Kononowicz to serve as a clinical pathways editor. Currently the tool is also used for other purposes including learning using graphic organisers, design of virtual patients, building cognitive maps, visualisation of workflows. Being developed in Java Swing technology the Bit Pathways tool can be used on various operating systems and does not require complicated installation. 
 
-Bit Pathways represents flowcharts at three levels: Context, Template, Pathway Data. The level of context 
-defines the types of nodes and edges available in the flowchart. At the level of templates attribute groups 
-composed of single attributes or attribute lists can be defined and attached to nodes and edges of the flowchart graph. 
-Various templates may be prepared and stored on-line in a repository. At the pathway data level individual 
-flowcharts graphs are created. Pathways can reference to subordinated pathways (subpathways).
+Bit Pathways represents flowcharts at three levels: Context, Template, Pathway Data. The level of context defines the types of nodes and edges available in the flowchart. At the level of templates attribute groups composed of single attributes or attribute lists can be defined and attached to nodes and edges of the flowchart graph. Various templates may be prepared and stored on-line in a repository. At the pathway data level individual flowcharts graphs are created. Pathways can reference to subordinated pathways (subpathways).
 
-Flowcharts created by Bit Pathways may be stored as separate files locally or (by default) remotely 
-in a native XML database. The pathways may be exported as PNG images, interactive HTML pages (hyper-flowcharts), 
-MedBiquitous Virtual Patient (MVP) packages and GLIF guidelines (in RDF-format).
+Flowcharts created by Bit Pathways may be stored as separate files locally or (by default) remotely in a native XML database. The pathways may be exported as PNG images, interactive HTML pages (hyper-flowcharts), MedBiquitous Virtual Patient (MVP) packages and GLIF guidelines (in RDF-format).
 
-In addition to the editor, a separate system for viewing Bit Pathways flowcharts on-line was 
-developed called Bit Pathways Teacher (not published yet).
+In addition to the editor, a separate system for viewing Bit Pathways flowcharts on-line was developed called Bit Pathways Teacher (not published yet).
