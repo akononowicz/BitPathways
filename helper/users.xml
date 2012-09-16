@@ -1,0 +1,25 @@
+<configuration>
+    <bp_users>
+        <bp_user uid="1" name="user" password="test" role="admin" firstname="Andrzej" famname="Kononowicz" group="teachers"/>
+	</bp_users>
+
+	<groups>
+        <group id="teachers">
+			<templates>
+                <template>
+                    <name>Clinial pathway</name>
+					<url>http://puls.cm-uj.krakow.pl/bpath/templates/t_cp_v001.xml</url>
+				</template>
+                <template>
+                    <name>Simple pathway</name>
+					<url>http://puls.cm-uj.krakow.pl/bpath/templates/t_simple_v001.xml</url>
+				</template>
+                <template>
+                    <name>Virtual patient</name>
+					<url>http://puls.cm-uj.krakow.pl/bpath/templates/t_vp_v001.xml</url>
+				</template>
+			</templates>
+		</group>
+	</groups>
+
+</configuration>

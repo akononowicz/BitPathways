@@ -4,24 +4,16 @@
 		
 		<server>
 			<label>vph</label>
-			<address>anyhost.com</address>
+			<address>149.156.12.29</address>
 			<port>80</port>
+			
+			<db_user>vph_user</db_user>
+			<db_pass>vph_krakow2012</db_pass>
+			<db_name>bpath_vph</db_name>
+			<db_type>existdb</db_type>
+			
 		</server>
 		
-		<server>
-			<label>localhost</label>
-			<address>127.0.0.1</address>
-			<port>8080</port>
-			
-			<!-- db config may be skipped, in such case 
-			data encoded in the source code ServerConf.java 
-			will taken - this is to be changed in future versions -->
-			
-			<db_user>bpath_user</db_user>
-			<db_pass>bpath_default</db_pass>
-			<db_name>bpath</db_name>
-			<db_type>existdb</db_type>
-		</server>
 		
 	</servers>
 
