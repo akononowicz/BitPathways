@@ -4,7 +4,7 @@
 		
 		<server>
 			<label>vph</label>
-			<address>149.156.12.29</address>
+			<address>anyhost.com</address>
 			<port>80</port>
 		</server>
 		
