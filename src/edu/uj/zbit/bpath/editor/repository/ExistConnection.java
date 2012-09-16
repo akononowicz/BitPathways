@@ -62,7 +62,7 @@ public class ExistConnection {
 		    "/exist/xmlrpc/db/"+
 		    BpathMainFrame.server.getDb_name();
     	
-    	existUser = BpathMainFrame.server.getDb_username();
+    	existUser = BpathMainFrame.server.getDb_user();
     	existPass = BpathMainFrame.server.getDb_pass();
     }
     
@@ -218,7 +218,7 @@ public class ExistConnection {
 		  
 		  String xquery="for $user in //bp_users/bp_user[@name='"+username+"'][@password='"+pass+"'] return <user uid='{$user/@uid}' role='{$user/@role}' firstname='{$user/@firstname}' famname='{$user/@famname}' group='{$user/@group}' />";
 	  
-		  //log.debug(xquery);
+		  log.debug(xquery);
 		  
 		  ResourceIterator results;
 		  

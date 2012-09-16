@@ -1,0 +1,19 @@
+<bpath_conf>
+
+	<servers>
+		
+		<server>
+			<label>localhost</label>
+			<address>127.0.0.1</address>
+			<port>80</port>
+			
+			<db_user>user</db_user>
+			<db_pass>pass</db_pass>
+			<db_name>bpath</db_name>
+			<db_type>existdb</db_type>
+			
+		</server>
+	
+	</servers>
+
+</bpath_conf>

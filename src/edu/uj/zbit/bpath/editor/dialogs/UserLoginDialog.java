@@ -321,7 +321,14 @@ public class UserLoginDialog extends JDialog {
 					String db_type=servElement.getElementsByTagName("db_type").item(0).getTextContent();
 					String db_user=servElement.getElementsByTagName("db_user").item(0).getTextContent();
 					String db_pass=servElement.getElementsByTagName("db_pass").item(0).getTextContent();					
-				} catch (Exception e) {}
+				
+					servTab[i].setDb_pass(db_pass);
+					servTab[i].setDb_name(db_name);
+					servTab[i].setDb_type(db_type);
+					servTab[i].setDb_user(db_user);
+		
+				} catch (Exception e) {
+				}
 			}
 			
 			return servTab;
