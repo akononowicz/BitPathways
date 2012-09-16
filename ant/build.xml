@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+
+<project name="BIT Pathways" basedir="." default="run_editor">
+    
+	<property name="major_version" value="b02"/>
+
+    <property name="src.dir" value="../src"/>
+    <property name="build.dir" value="../bin"/>
+	<property name="lib.dir" value="c:/Java/workspace/bpath/lib"/>
+    <property name="stable.dir" value="c:/dist/bpath/2_1_0"/>
+	<property name="build.sysclasspath" value="last"/>
+	
+	<property name="language" value="en"/>
+		
+	<path id="lib.path">
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+	
+    <target name="build" description="Compile main source tree java files">
+    
+        <mkdir dir="${build.dir}"/>
+        
+    	<javac destdir="${build.dir}" classpathref="lib.path" source="5" target="5">
+            <src path="${src.dir}"/>
+        </javac>
+    	
+    </target>
+	
+	<target name="copy_client_resources">
+		<copy todir="${build.dir}/ico">
+			<fileset dir="../ico"/>
+		</copy>
+		
+		<copy todir="${build.dir}/i18n">
+			<fileset dir="../i18n"/>
+		</copy>
+		<copy todir="${build.dir}/xslt">
+			<fileset dir="../xslt"/>
+		</copy>
+		
+		<copy todir="${build.dir}" file="../src/log4j.xml"/>
+	
+    	<copy todir="${build.dir}">
+			<fileset dir="../bat"/>
+		</copy>
+    	<copy todir="${build.dir}/lib">
+    				<fileset dir="../lib"/>
+    	</copy>
+    	<copy todir="${build.dir}/conf">
+    				<fileset dir="../conf"/>
+    	</copy>
+    	<copy todir="${build.dir}/resources">
+    				<fileset dir="../resources"/>
+    	</copy>	
+	
+	</target>	
+	
+	<target name="run_editor" depends="build,copy_client_resources">
+		<java classname="edu.uj.zbit.bpath.editor.BpathMainFrame"
+			  fork="true" dir="${build.dir}">
+			<arg value="${language}"/>
+			<!-- <arg value="noserver"/> -->
+			 
+			<classpath>
+				<pathelement path="${build.dir}"/>
+			</classpath>
+	
+			<classpath refid="lib.path"/>
+	
+		</java>
+	</target>
+		
+	<target name="versioning">
+		<buildnumber/>
+		<echo message="${build.number}"/>
+	</target>
+	
+    <target name="jar_client" depends="build,copy_client_resources,versioning">
+        <jar destfile="${stable.dir}/bp.jar"
+        	 basedir="${build.dir}"
+        	 excludes="	resources/*.*,
+        				conf/*.*,
+        				lib/*.*"
+        />
+    	<copy todir="${stable.dir}">
+			<fileset dir="../bat"/>
+		</copy>
+    	<copy todir="${stable.dir}/lib">
+    				<fileset dir="../lib"/>
+    	</copy>
+    	<copy todir="${stable.dir}/conf">
+    				<fileset dir="../conf"/>
+    	</copy>
+    	<copy todir="${stable.dir}/resources">
+    				<fileset dir="../resources"/>
+    	</copy>    	
+    </target>
+	
+	
+    <target name="clean" description="Clean output directories">
+        <delete>
+            <fileset dir="${build.dir}"/>
+        </delete>
+    </target>
+
+   
+</project>
