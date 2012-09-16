@@ -1,0 +1,333 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE rdf:RDF [
+	 <!ENTITY rdf 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'>
+	 <!ENTITY a 'http://protege.stanford.edu/system#'>
+	 <!ENTITY kb 'http://protege.stanford.edu/kb#'>
+	 <!ENTITY rdfs 'http://www.w3.org/2000/01/rdf-schema#'>
+]>
+<rdf:RDF xmlns:rdf="&rdf;"
+	 xmlns:a="&a;"
+	 xmlns:kb="&kb;"
+	 xmlns:rdfs="&rdfs;">
+<a:_pal_constraint rdf:about="&kb;GLIF3_5_00227"
+	 a:_pal_name="A branch state step must be connected"
+	 rdfs:label="A branch state step must be connected">
+	<a:_pal_range>(defrange ?step :FRAME Branch_Step)
+(defrange ?step2 :FRAME Guideline_Step)
+(defrange ?algorithm :FRAME Algorithm)
+(defrange ?option :FRAME Decision_Option)</a:_pal_range>
+	<a:_pal_statement>(forall ?step 
+        (=> (and (instance-of ?step Branch_Step)
+                 (or (not (own-slot-not-null branches ?step))
+                     (= (branches ?step) ?step))) 
+            (exists ?algorithm 
+                    (exists ?step2 (and (steps ?algorithm ?step)
+                                        (steps ?algorithm ?step2)
+                                        (/= ?step ?step2)
+                                        (=> (instance-of ?step2 Action_Step)
+                                            (and (own-slot-not-null next_step ?step2)
+                                                 (= (next_step ?step2) ?step)))
+                                        (=> (instance-of ?step2 Synchronization_Step)
+                                            (and (own-slot-not-null next_step ?step2)
+                                                 (= (next_step ?step2) ?step)))
+                                        (=> (instance-of ?step2 Patient_State_Step)
+                                            (and (own-slot-not-null next_step ?step2)
+                                                 (= (next_step ?step2) ?step)))
+                                        (=> (instance-of ?step2 Branch_Step)
+                                            (and (own-slot-not-null branches ?step2)
+                                                 (= (branches ?step2) ?step)))
+                                        (=> (instance-of ?step2 Decision_Step)
+                                            (and (own-slot-not-null options ?step2)
+                                                 (exists ?option
+                                                         (and (options ?step2 ?option)
+                                                              (own-slot-not-null destination ?option)
+                                                              (= (destination ?option) ?step))))))))))</a:_pal_statement>
+</a:_pal_constraint>
+<a:_pal_constraint rdf:about="&kb;GLIF3_5_00228">
+	<a:_pal_name>A branch state step must not be followed immediately by a synch step</a:_pal_name>
+	<a:_pal_range>(defrange ?branch_step :FRAME Branch_Step)
+(defrange ?synch :FRAME Synchronization_Step)</a:_pal_range>
+	<a:_pal_statement>(forall ?branch_step 
+        (=> (own-slot-not-null branches ?branch_step)
+            (not (exists ?synch (branches ?branch_step ?synch)))))</a:_pal_statement>
+	<rdfs:label>A branch state step must not be followed immediately by a synch step</rdfs:label>
+</a:_pal_constraint>
+<a:_pal_constraint rdf:about="&kb;GLIF3_5_00229"
+	 a:_pal_name="A branch step must have more than one branch"
+	 rdfs:label="A branch step must have more than one branch">
+	<a:_pal_range>(defrange ?branch_step :FRAME Branch_Step)
+(defrange ?branch1 :FRAME Guideline_Step)
+(defrange ?branch2 :FRAME Guideline_Step)</a:_pal_range>
+	<a:_pal_statement>(forall ?branch_step 
+        (and (own-slot-not-null branches ?branch_step)
+             (exists ?branch1
+                     (exists ?branch2
+                             (and (branches ?branch_step ?branch1)
+                                  (branches ?branch_step ?branch2)
+                                  (/= ?branch1 ?branch2))))))</a:_pal_statement>
+</a:_pal_constraint>
+<a:_pal_constraint rdf:about="&kb;GLIF3_5_00230">
+	<a:_pal_name>A Branch Step must not connected to steps in other algorithms</a:_pal_name>
+	<a:_pal_range>(defrange ?step :FRAME Branch_Step)
+(defrange ?algorithm :FRAME Algorithm)
+(defrange ?algorithm2 :FRAME Algorithm)</a:_pal_range>
+	<a:_pal_statement>(forall ?step 
+        (=> (and (instance-of ?step Branch_Step)
+                        (own-slot-not-null branches ?step))
+               (exists ?algorithm
+                       (and 
+            	(steps ?algorithm ?step)
+             	(not (exists ?algorithm2 
+                                              (and
+                                                 (steps ?algorithm2 (branches ?step))
+                                                 (/= ?algorithm ?algorithm2))))))))    </a:_pal_statement>
+	<rdfs:label>A Branch Step must not connected to steps in other algorithms</rdfs:label>
+</a:_pal_constraint>
+<a:_pal_constraint rdf:about="&kb;GLIF3_5_00231"
+	 a:_pal_name="A decision step must be connected"
+	 rdfs:label="A decision step must be connected">
+	<a:_pal_range>(defrange ?step :FRAME Decision_Step)
+(defrange ?step2 :FRAME Guideline_Step)
+(defrange ?algorithm :FRAME Algorithm)
+(defrange ?option :FRAME Decision_Option)
+(defrange ?option1 :FRAME Decision_Option)</a:_pal_range>
+	<a:_pal_statement>(forall ?step 
+        (=> (and (instance-of ?step Decision_Step)
+                 (not (and (own-slot-not-null options ?step)
+                           (exists ?option1
+                                   (and (options ?step ?option1)
+                                        (own-slot-not-null destination ?option1)
+                                        (/= (destination ?option1) ?step))))))
+            (exists ?algorithm 
+                    (exists ?step2 (and (steps ?algorithm ?step)
+                                        (steps ?algorithm ?step2)
+                                        (/= ?step ?step2)
+                                        (=> (instance-of ?step2 Action_Step)
+                                            (and (own-slot-not-null next_step ?step2)
+                                                 (= (next_step ?step2) ?step)))
+                                        (=> (instance-of ?step2 Synchronization_Step)
+                                            (and (own-slot-not-null next_step ?step2)
+                                                 (= (next_step ?step2) ?step)))
+                                        (=> (instance-of ?step2 Patient_State_Step)
+                                            (and (own-slot-not-null next_step ?step2)
+                                                 (= (next_step ?step2) ?step)))
+                                        (=> (instance-of ?step2 Branch_Step)
+                                            (and (own-slot-not-null branches ?step2)
+                                                 (= (branches ?step2) ?step)))
+                                        (=> (instance-of ?step2 Decision_Step)
+                                            (and (own-slot-not-null options ?step2)
+                                                 (exists ?option
+                                                         (and (options ?step2 ?option)
+                                                              (own-slot-not-null destination ?option)
+                                                              (= (destination ?option) ?step))))))))))</a:_pal_statement>
+</a:_pal_constraint>
+<a:_pal_constraint rdf:about="&kb;GLIF3_5_00232"
+	 a:_pal_name="A decision step must have more than one alternative"
+	 rdfs:label="A decision step must have more than one alternative">
+	<a:_pal_range>(defrange ?decision_step :FRAME Decision_Step)
+(defrange ?option1 :FRAME Decision_Option)
+(defrange ?option2 :FRAME Decision_Option)</a:_pal_range>
+	<a:_pal_statement>(forall ?decision_step 
+    (and (own-slot-not-null options ?decision_step)
+              (exists ?option1
+                  (exists ?option2
+                      (and (options ?decision_step ?option1)
+                                (own-slot-not-null destination ?option1)
+                                (options ?decision_step ?option2)
+                                (own-slot-not-null destination ?option2)
+                                (/= (destination ?option1) (destination ?option2)))))))</a:_pal_statement>
+</a:_pal_constraint>
+<a:_pal_constraint rdf:about="&kb;GLIF3_5_00233">
+	<a:_pal_name>A Decision Step must not connected to steps in other algorithms</a:_pal_name>
+	<a:_pal_range>(defrange ?step :FRAME Decision_Step)
+(defrange ?algorithm :FRAME Algorithm)
+(defrange ?algorithm2 :FRAME Algorithm)
+(defrange ?option :FRAME Decision_Option)
+(defrange ?option1 :FRAME Decision_Option)</a:_pal_range>
+	<a:_pal_statement>(forall ?step 
+        (=> (and (instance-of ?step Decision_Step)
+                        (own-slot-not-null options ?step)
+                         (exists ?option
+                                   (and (options ?step ?option)
+                                            (own-slot-not-null destination ?option))))
+               (exists ?algorithm
+                       (and 
+            	(steps ?algorithm ?step)
+             	(not (exists ?algorithm2 
+	              (exists ?option1
+                                                 (and (options ?step ?option1)
+                                                          (own-slot-not-null destination ?option1)
+                                                          (steps ?algorithm2 (destination ?option1))
+                                                          (/= ?algorithm ?algorithm2)))))))))</a:_pal_statement>
+	<rdfs:label>A Decision Step must not connected to steps in other algorithms</rdfs:label>
+</a:_pal_constraint>
+<a:_pal_constraint rdf:about="&kb;GLIF3_5_00234"
+	 a:_pal_name="A guideline steps must be part of an algorithm"
+	 rdfs:label="A guideline steps must be part of an algorithm">
+	<a:_pal_range>(defrange ?step :FRAME Guideline_Step)
+(defrange ?algorithm :FRAME Algorithm)</a:_pal_range>
+	<a:_pal_statement>(forall ?step
+    (exists ?algorithm (steps ?algorithm ?step)))
+                   
+</a:_pal_statement>
+</a:_pal_constraint>
+<a:_pal_constraint rdf:about="&kb;GLIF3_5_00235"
+	 a:_pal_name="A patient state step must be connected"
+	 rdfs:label="A patient state step must be connected">
+	<a:_pal_range>defrange ?step :FRAME Patient_State_Step)
+(defrange ?step2 :FRAME Guideline_Step)
+(defrange ?algorithm :FRAME Algorithm)
+(defrange ?option :FRAME Decision_Option)</a:_pal_range>
+	<a:_pal_statement>(forall ?step 
+        (=> (and (instance-of ?step Patient_State_Step)
+                 (or (not (own-slot-not-null next_step ?step))
+                     (= (next_step ?step) ?step))) 
+            (exists ?algorithm 
+                    (exists ?step2 (and (steps ?algorithm ?step)
+                                        (steps ?algorithm ?step2)
+                                        (/= ?step ?step2)
+                                        (=> (instance-of ?step2 Action_Step)
+                                            (and (own-slot-not-null next_step ?step2)
+                                                 (= (next_step ?step2) ?step)))
+                                        (=> (instance-of ?step2 Synchronization_Step)
+                                            (and (own-slot-not-null next_step ?step2)
+                                                 (= (next_step ?step2) ?step)))
+                                        (=> (instance-of ?step2 Patient_State_Step)
+                                            (and (own-slot-not-null next_step ?step2)
+                                                 (= (next_step ?step2) ?step)))
+                                        (=> (instance-of ?step2 Branch_Step)
+                                            (and (own-slot-not-null branches ?step2)
+                                                 (= (branches ?step2) ?step)))
+                                        (=> (instance-of ?step2 Decision_Step)
+                                            (and (own-slot-not-null options ?step2)
+                                                 (exists ?option
+                                                         (and (options ?step2 ?option)
+                                                              (own-slot-not-null destination ?option)
+                                                              (= (destination ?option) ?step))))))))))</a:_pal_statement>
+</a:_pal_constraint>
+<a:_pal_constraint rdf:about="&kb;GLIF3_5_00236">
+	<a:_pal_name>A Patient State Step must not connected to steps in other algorithms</a:_pal_name>
+	<a:_pal_range>(defrange ?step :FRAME Patient_State_Step)
+(defrange ?algorithm :FRAME Algorithm)
+(defrange ?algorithm2 :FRAME Algorithm)</a:_pal_range>
+	<a:_pal_statement>(forall ?step 
+        (=> (and (instance-of ?step Patient_State_Step)
+                        (own-slot-not-null next_step ?step))
+               (exists ?algorithm
+                       (and 
+            	(steps ?algorithm ?step)
+             	(not (exists ?algorithm2 
+                                              (and
+                                                 (steps ?algorithm2 (next_step ?step))
+                                                 (/= ?algorithm ?algorithm2))))))))    </a:_pal_statement>
+	<rdfs:label>A Patient State Step must not connected to steps in other algorithms</rdfs:label>
+</a:_pal_constraint>
+<a:_pal_constraint rdf:about="&kb;GLIF3_5_00237">
+	<a:_pal_name>A Synchronization Step must not connected to steps in other algorithms</a:_pal_name>
+	<a:_pal_range>(defrange ?step :FRAME Synchronization_Step)
+(defrange ?algorithm :FRAME Algorithm)
+(defrange ?algorithm2 :FRAME Algorithm)</a:_pal_range>
+	<a:_pal_statement>(forall ?step 
+        (=> (and (instance-of ?step Synchronization_Step)
+                        (own-slot-not-null next_step ?step))
+               (exists ?algorithm
+                       (and 
+            	(steps ?algorithm ?step)
+             	(not (exists ?algorithm2 
+                                              (and
+                                                 (steps ?algorithm2 (next_step ?step))
+                                                 (/= ?algorithm ?algorithm2))))))))    </a:_pal_statement>
+	<rdfs:label>A Synchronization Step must not connected to steps in other algorithms</rdfs:label>
+</a:_pal_constraint>
+<a:_pal_constraint rdf:about="&kb;GLIF3_5_00238"
+	 a:_pal_name="A syncronization step must be connected"
+	 rdfs:label="A syncronization step must be connected">
+	<a:_pal_range>(defrange ?step :FRAME Synchronization_Step)
+(defrange ?step2 :FRAME Guideline_Step)
+(defrange ?algorithm :FRAME Algorithm)
+(defrange ?option :FRAME Decision_Option)</a:_pal_range>
+	<a:_pal_statement>(forall ?step 
+        (=> (and (instance-of ?step Synchronization_Step)
+                 (or (not (own-slot-not-null next_step ?step))
+                     (= (next_step ?step) ?step))) 
+            (exists ?algorithm 
+                    (exists ?step2 (and (steps ?algorithm ?step)
+                                        (steps ?algorithm ?step2)
+                                        (/= ?step ?step2)
+                                        (=> (instance-of ?step2 Action_Step)
+                                            (and (own-slot-not-null next_step ?step2)
+                                                 (= (next_step ?step2) ?step)))
+                                        (=> (instance-of ?step2 Synchronization_Step)
+                                            (and (own-slot-not-null next_step ?step2)
+                                                 (= (next_step ?step2) ?step)))
+                                        (=> (instance-of ?step2 Patient_State_Step)
+                                            (and (own-slot-not-null next_step ?step2)
+                                                 (= (next_step ?step2) ?step)))
+                                        (=> (instance-of ?step2 Branch_Step)
+                                            (and (own-slot-not-null branches ?step2)
+                                                 (= (branches ?step2) ?step)))
+                                        (=> (instance-of ?step2 Decision_Step)
+                                            (and (own-slot-not-null options ?step2)
+                                                 (exists ?option
+                                                         (and (options ?step2 ?option)
+                                                              (own-slot-not-null destination ?option)
+                                                              (= (destination ?option) ?step))))))))))</a:_pal_statement>
+</a:_pal_constraint>
+<a:_pal_constraint rdf:about="&kb;GLIF3_5_00239"
+	 a:_pal_name="An  action step must be connected"
+	 rdfs:label="An  action step must be connected">
+	<a:_pal_range>(defrange ?step :FRAME Action_Step)
+(defrange ?step2 :FRAME Guideline_Step)
+(defrange ?algorithm :FRAME Algorithm)
+(defrange ?option :FRAME Decision_Option)</a:_pal_range>
+	<a:_pal_statement>(forall ?step 
+        (=> (and (instance-of ?step Action_Step)
+                 (or (not (own-slot-not-null next_step ?step))
+                     (= (next_step ?step) ?step))) 
+            (exists ?algorithm 
+                    (exists ?step2 (and (steps ?algorithm ?step)
+                                        (steps ?algorithm ?step2)
+                                        (/= ?step ?step2)
+                                        (=> (instance-of ?step2 Action_Step)
+                                            (and (own-slot-not-null next_step ?step2)
+                                                 (= (next_step ?step2) ?step)))
+                                        (=> (instance-of ?step2 Synchronization_Step)
+                                            (and (own-slot-not-null next_step ?step2)
+                                                 (= (next_step ?step2) ?step)))
+                                        (=> (instance-of ?step2 Patient_State_Step)
+                                            (and (own-slot-not-null next_step ?step2)
+                                                 (= (next_step ?step2) ?step)))
+                                        (=> (instance-of ?step2 Branch_Step)
+                                            (and (own-slot-not-null branches ?step2)
+                                                 (= (branches ?step2) ?step)))
+                                        (=> (instance-of ?step2 Decision_Step)
+                                            (and (own-slot-not-null options ?step2)
+                                                 (exists ?option
+                                                         (and (options ?step2 ?option)
+                                                              (own-slot-not-null destination ?option)
+                                                              (= (destination ?option) ?step))))))))))</a:_pal_statement>
+</a:_pal_constraint>
+<a:_pal_constraint rdf:about="&kb;GLIF3_5_00240">
+	<a:_pal_name>An Action Step must not be connected to steps in other algorithms</a:_pal_name>
+	<a:_pal_range>(defrange ?step :FRAME Action_Step)
+(defrange ?algorithm :FRAME Algorithm)
+(defrange ?algorithm2 :FRAME Algorithm)</a:_pal_range>
+	<a:_pal_statement>(forall ?step 
+        (=> (and (instance-of ?step Action_Step)
+                        (own-slot-not-null next_step ?step))
+               (exists ?algorithm
+                       (and 
+            	(steps ?algorithm ?step)
+             	(not (exists ?algorithm2 
+                                              (and
+                                                 (steps ?algorithm2 (next_step ?step))
+                                                 (/= ?algorithm ?algorithm2))))))))                		</a:_pal_statement>
+	<rdfs:label>An Action Step must not be connected to steps in other algorithms</rdfs:label>
+</a:_pal_constraint>
+<a:_pal_constraint rdf:about="&kb;GLIF3_5_00241"
+	 a:_pal_name='An Action Step should have a "name"'
+	 rdfs:label='An Action Step should have a "name"'>
+	<a:_pal_statement>(forall ?actionStep
+        (=(number-of-own-slot-values name ?actionStep) 1))</a:_pal_statement>
+</a:_pal_constraint>
+</rdf:RDF>
